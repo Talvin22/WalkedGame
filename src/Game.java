@@ -1,74 +1,39 @@
 import java.util.Scanner;
 
 public class Game {
-    private static final int m = 5;
-    private static final int n = 5;
-    private static char[][] field = new char[m][n];
-    private static int playerX = 0;
-    private static int playerY = 0;
-
     public static void main(String[] args) {
+        Player player = new Player();
+        Field field = new Field();
         Scanner scanner = new Scanner(System.in);
-        initializeField();
-        printField();
+
+        field.initializeField();
+        field.printField();
 
         while (true) {
             String command = scanner.nextLine();
             switch (command) {
                 case "w":
-                    movePlayer(-1, 0);
+                    player.movePlayer(-1, 0, field.field);
                     break;
                 case "a":
-                    movePlayer(0, -1);
+                    player.movePlayer(0, -1, field.field);
                     break;
                 case "s":
-                    movePlayer(1, 0);
+                    player.movePlayer(1, 0, field.field);
                     break;
                 case "d":
-                    movePlayer(0, 1);
+                    player.movePlayer(0, 1, field.field);
                     break;
                 default:
                     System.out.println("Неверная команда, используйте 'w', 'a', 's', 'd' для движения.");
                     continue;
             }
-            if (playerX == m - 1 && playerY == n - 1) {
+            if (player.playerX == field.m - 1 && player.playerY == field.n - 1) {
                 System.out.println("Игра окончена! Вы достигли финиша.");
                 break;
             }
-            printField();
+            field.printField();
         }
         scanner.close();
-    }
-
-    private static void initializeField() {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                field[i][j] = '*';
-            }
-        }
-        field[0][0] = '#';
-    }
-
-    private static void movePlayer(int dx, int dy) {
-        int newX = playerX + dx;
-        int newY = playerY + dy;
-
-        if (newX >= 0 && newX < m && newY >= 0 && newY < n) {
-            field[playerX][playerY] = '*';
-            playerX = newX;
-            playerY = newY;
-            field[playerX][playerY] = '#';
-        } else {
-            System.out.println("Вы не можете выйти за границы карты!");
-        }
-    }
-
-    private static void printField() {
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
 }
